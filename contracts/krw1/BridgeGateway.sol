@@ -17,7 +17,7 @@ contract BridgeGateway is AbstractGateway {
         uint256 _amount,
         uint32 _sourceDomain,
         address _sourceSender,
-        uint256 _txId) external onlyGatewayMaster useTxId(_txId) onlyMinter(_minter) {
+        uint256 _txId) external {
 
         mintCommon(_minter, _amount, _txId);
 
@@ -31,7 +31,7 @@ contract BridgeGateway is AbstractGateway {
         address _destinationRecipient,
         uint256 _permitDeadline,
         bytes memory _permitSignature,
-        uint256 _txId) external onlyGatewayMaster useTxId(_txId) onlyMinter(_owner) {
+        uint256 _txId) external {
 
         burnCommon(_owner, _amount, _permitDeadline, _permitSignature, _txId);
 
