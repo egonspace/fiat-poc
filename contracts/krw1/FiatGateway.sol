@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 import "./AbstractGateway.sol";
 
 contract FiatGateway is AbstractGateway {
-    event FiatTokenMintedForFiat(uint256 indexed _txId, address indexed _minter, uint256 _amount);
-    event FiatTokenBurntFromFiat(uint256 indexed _txId, address indexed _minter, uint256 _amount);
+    event FiatTokenMintedFromFiat(uint256 indexed _txId, address indexed _minter, uint256 _amount);
+    event FiatTokenBurntForFiat(uint256 indexed _txId, address indexed _minter, uint256 _amount);
     event FiatTokenTransferred(uint256 indexed _txId, address indexed _minter, address _to, uint256 _amount);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -19,7 +19,7 @@ contract FiatGateway is AbstractGateway {
         uint256 _txId) external {
 
         mintCommon(_minter, _amount, _txId);
-        emit FiatTokenMintedForFiat(_txId, _minter, _amount);
+        emit FiatTokenMintedFromFiat(_txId, _minter, _amount);
     }
 
     function burnForFiat(
@@ -33,7 +33,7 @@ contract FiatGateway is AbstractGateway {
 
         burnCommon(_owner, _amount, _permitDeadline, _permitSignature, _txId);
 
-        emit FiatTokenBurntFromFiat(_txId, _owner, _amount);
+        emit FiatTokenBurntForFiat(_txId, _owner, _amount);
     }
 
     function transferFrom(
