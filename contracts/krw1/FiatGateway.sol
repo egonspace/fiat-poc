@@ -37,16 +37,17 @@ contract FiatGateway is AbstractGateway {
     }
 
     function transferFrom(
-        address _owner,
+        address _from,
         address _to,
         uint256 _amount,
-        uint256 _permitDeadline,
-        bytes memory _permitSignature,
-        uint256 _txId) external onlyGatewayMaster useTxId(_txId) onlyMinter(_owner) {
+        uint256 _validAfter,
+        uint256 _validBefore,
+        bytes32 _nonce,
+        bytes memory _signature,
+        uint256 _txId) external onlyGatewayMaster useTxId(_txId) onlyMinter(_from) {
 
-        fiat.permit(_owner, address(this), _amount, _permitDeadline, _permitSignature);
-        fiat.transferFrom(_owner, _to, _amount);
+        fiat.transferWithAuthorization(_from, _to, _amount, _validAfter, _validBefore, _nonce, _signature);
 
-        emit FiatTokenTransferred(_txId, _owner, _to, _amount);
+        emit FiatTokenTransferred(_txId, _from, _to, _amount);
     }
 }
