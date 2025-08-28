@@ -78,13 +78,13 @@ abstract contract AbstractGateway is OwnableUpgradeable, UUPSUpgradeable {
     }
 
     function mintCommon(
-        address _minter,
+        address _to,
         uint256 _amount,
-        uint256 _txId) internal onlyGatewayMaster useTxId(_txId) onlyMinter(_minter) {
+        uint256 _txId) internal onlyGatewayMaster useTxId(_txId) {
 
-        fiat.mint(_minter, _amount);
+        fiat.mint(_to, _amount);
 
-        accumulatedMinted[_minter] += _amount;
+        accumulatedMinted[_to] += _amount;
         totalAccumulatedMinted += _amount;
     }
 
@@ -93,7 +93,7 @@ abstract contract AbstractGateway is OwnableUpgradeable, UUPSUpgradeable {
         uint256 _amount,
         uint256 _permitDeadline,
         bytes memory _permitSignature,
-        uint256 _txId) internal onlyGatewayMaster useTxId(_txId) onlyMinter(_owner) {
+        uint256 _txId) internal onlyGatewayMaster useTxId(_txId) {
 
         fiat.permit(_owner, address(this), _amount, _permitDeadline, _permitSignature);
         fiat.transferFrom(_owner, address(this), _amount);

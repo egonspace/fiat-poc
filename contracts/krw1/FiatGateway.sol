@@ -16,7 +16,7 @@ contract FiatGateway is AbstractGateway {
     function mintFromFiat(
         address _minter,
         uint256 _amount,
-        uint256 _txId) external {
+        uint256 _txId) external onlyMinter(_minter) {
 
         mintCommon(_minter, _amount, _txId);
         emit FiatTokenMintedFromFiat(_txId, _minter, _amount);
@@ -27,7 +27,7 @@ contract FiatGateway is AbstractGateway {
         uint256 _amount,
         uint256 _permitDeadline,
         bytes memory _permitSignature,
-        uint256 _txId) external {
+        uint256 _txId) external onlyMinter(_owner) {
 
         require(_amount % (10**fiat.decimals()) == 0, "FiatGateway: only whole token amounts can be burned");
 
@@ -44,7 +44,7 @@ contract FiatGateway is AbstractGateway {
         uint256 _validBefore,
         bytes32 _nonce,
         bytes memory _signature,
-        uint256 _txId) external onlyGatewayMaster useTxId(_txId) onlyMinter(_from) {
+        uint256 _txId) external onlyGatewayMaster useTxId(_txId) {
 
         fiat.transferWithAuthorization(_from, _to, _amount, _validAfter, _validBefore, _nonce, _signature);
 

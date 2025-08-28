@@ -13,15 +13,15 @@ contract BridgeGateway is AbstractGateway {
     }
 
     function mintForEntrance(
-        address _minter,
+        address _to,
         uint256 _amount,
         uint32 _sourceDomain,
         address _sourceSender,
         uint256 _txId) external {
 
-        mintCommon(_minter, _amount, _txId);
+        mintCommon(_to, _amount, _txId);
 
-        emit FiatTokenMintedForEntrance(_txId, _minter, _amount, _sourceDomain, _sourceSender);
+        emit FiatTokenMintedForEntrance(_txId, _to, _amount, _sourceDomain, _sourceSender);
     }
 
     function burnForExit(
